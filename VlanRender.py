@@ -28,6 +28,16 @@ class VlanRender():
          return False
 
    def valid(self, vlan:int):
+      '''
+      valid - Checks if a VLAN ID (int) is valid or not
+
+      Parameters:
+         vlan: int
+
+      Returns: 
+         Bool
+            True if VLAN ID is in the correct range, False if not
+      '''
       return 1 <= vlan <= 4095
 
    def expand(self, vlan:str ):
@@ -67,16 +77,16 @@ class VlanRender():
 
    def compress(self, vlans: list):
       '''
-      comnpress - take a list of ints, and convert it to a compressed (hypenated) string
+      compress - take a list of ints, and convert it to a compressed (hypenated) string
 
       Parameters:
-         vlan: string
-            A string with the switch rendering of the VLANs for trunk ports e.g.
-            "2-5,11,23,55-98"
+         vlan: list(int)
+            A list of integers, representing the VLANs to be converted to string
 
       Returns:
-         list(int)
-            A list of integers, being all the VLAN IDs
+         string:
+            A string representing the VLANS, comma separated single elemends, with hyphenated ranges e.g.
+            "1,2,3-5,20-55,57"
       '''
       if not len(vlans):
          return ''
