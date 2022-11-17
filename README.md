@@ -3,7 +3,7 @@
 # VlanRender
 
 <a id="VlanRender.VlanRender"></a>
-
+A simple python3 module to assist in working with and rendering the sets of VLANs typically allowed/added to switchports on network devices.
 ## VlanRender Objects
 
 ```python
