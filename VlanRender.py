@@ -6,9 +6,10 @@ from itertools import groupby
 class VlanRender():
 
    def __init__(self):
+      self.__flagValidate = True
       pass
 
-   def _group_id(self,item):
+   def _group_id(self,item:tuple):
       '''
       The maths behind this is actually fairly simple when you write it out.
       If the sequence is sequential e.g. 1,2,3 then taking the index - value
@@ -19,6 +20,15 @@ class VlanRender():
       e.g. 6, that would tield (4,6) which has group -2
       '''
       return item[0] - item[1]
+
+   def _validate(self, vlans:list):
+      if all(map(self.valid, vlans)):
+         return True
+      else:
+         return False
+
+   def valid(self, vlan:int):
+      return 1 <= vlan <= 4095
 
    def expand(self, vlan:str ):
       '''
@@ -45,7 +55,14 @@ class VlanRender():
          else:
             vlanSet.add( int(entry) )
 
-      return list(vlanSet)
+      if self.__flagValidate:
+         if self._validate( list(vlanSet) ):
+            return list(vlanSet)
+         else:
+            print('Invalid VLAN generated')
+            return None
+      else:
+         return  list(vlanSet)
 
 
    def compress(self, vlans: list):
@@ -64,6 +81,13 @@ class VlanRender():
       if not len(vlans):
          return ''
       sorted_vlans = sorted(vlans)
+
+      if self.__flagValidate:
+         if self._validate(sorted_vlans) is False:
+            print('Invalid VLAN in list')
+            return None
+
+
       values = list()
 
       for group_id, members in groupby(enumerate(sorted_vlans),key=self._group_id):
